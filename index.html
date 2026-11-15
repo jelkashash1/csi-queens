@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSI Queens | Who Killed the Witness?</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef1f5;color:#202b3c}
+header{background:#172437;color:white;padding:28px 20px;text-align:center}
+header h1{margin:8px 0;font-size:30px}
+header p{color:#cbd5e1}
+.badge{color:#e8b95e;font-size:12px;font-weight:bold;letter-spacing:2px}
+.container{max-width:1050px;margin:25px auto;padding:0 16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat,.card{background:white;border-radius:12px;padding:18px;box-shadow:0 2px 8px #0000000c}
+.stat{text-align:center}
+.stat strong{display:block;font-size:25px}
+.stat span{font-size:12px;color:#667085}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+button{cursor:pointer;border:0;border-radius:8px;padding:11px 15px;font-weight:bold}
+nav button{background:#dce3ec;color:#263449}
+nav button.active,.primary{background:#24364d;color:white}
+.secondary{background:#e6ebf2;color:#25354a}
+button:hover{opacity:.86}
+.page{display:none}
+.page.active{display:block}
+.card{margin-bottom:16px}
+h2{margin-top:0}
+h3{margin-bottom:10px}
+.muted{color:#697586;font-size:14px;line-height:1.5}
+.suspects,.zones,.patterns{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.suspect,.zone,.pattern{background:#f7f8fa;border:1px solid #dce2e9;border-radius:10px;padding:15px}
+.suspect h3{margin:5px 0}
+.zone{text-align:center}
+.zone .icon{font-size:30px}
+label{display:block;font-weight:bold;font-size:13px;margin:12px 0 6px}
+select,input,textarea{width:100%;padding:11px;border:1px solid #cbd2dc;border-radius:7px;font:inherit;background:white}
+textarea{resize:vertical}
+.evidence{border:1px solid #dce2e9;border-left:4px solid #299d72;border-radius:8px;padding:15px;margin:10px 0;background:#f9fbfc}
+.evidence h3{margin:0 0 8px}
+.locked{border-left-color:#9ca3af}
+.tag{font-size:10px;font-weight:bold;background:#e6ebf2;padding:4px 7px;border-radius:5px}
+button.wide{width:100%;margin-top:12px}
+.choice{background:#f3f5f8;border:2px solid #dce2e9;width:100%;text-align:left;margin:4px 0}
+.choice.selected{border-color:#c99c43;background:#fff8e8}
+.result{padding:18px;border-radius:10px;background:#e8f5ed;margin-top:15px}
+.teacher{border:2px dashed #c99c43}
+.hidden{display:none!important}
+.scoreline{display:flex;justify-content:space-between;margin:14px 0}
+footer{text-align:center;color:#8993a2;font-size:12px;padding:25px}
+@media(max-width:600px){.suspects,.zones,.patterns{grid-template-columns:1fr}.stats{gap:6px}.stat{padding:12px}header h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="badge">QUEENS POLICE DEPARTMENT · FORENSIC UNIT</div>
+<h1>CSI: QUEENS</h1>
+<h2>WHO KILLED THE WITNESS?</h2>
+<p>Four suspects. One killer. Every piece of evidence matters.</p>
+</header>
+
+<div class="container">
+
+<div class="stats">
+<div class="stat"><strong id="score">0</strong><span>Team Points</span></div>
+<div class="stat"><strong id="found">0/4</strong><span>Evidence Found</span></div>
+<div class="stat"><strong id="day">1/2</strong><span>Investigation Day</span></div>
+</div>
+
+<nav>
+<button class="active" onclick="showPage('brief',this)">Case Briefing</button>
+<button onclick="showPage('day1',this)">Day 1: Search</button>
+<button onclick="showPage('day2',this)">Day 2: Interrogation</button>
+<button onclick="showPage('verdict',this)">Final Verdict</button>
+<button onclick="showPage('teacher',this)">Teacher Key</button>
+</nav>
+
+<!-- CASE BRIEFING -->
+<section id="brief" class="page active">
+
+<div class="card">
+<div class="badge">CONFIDENTIAL CASE FILE #Q-2048</div>
+<h2>THE MURDER OF MARCUS RIVERA</h2>
+<p>Marcus Rivera, a 34-year-old property manager in Astoria, Queens, was found dead inside his apartment on Tuesday evening.</p>
+<p>Investigators believe he was killed between 8:30 PM and 9:30 PM.</p>
+<p>Earlier that day, Marcus told a friend he had discovered suspicious financial activity involving someone he knew. He planned to reveal the information the following morning.</p>
+<h3>Your Mission</h3>
+<p>Investigate the crime scene, examine evidence, question suspects, and identify the person responsible for Marcus Rivera's death.</p>
+</div>
+
+<h2>Meet the Suspects</h2>
+<div class="suspects">
+<div class="suspect"><h3>👔 Daniel Brooks</h3><p>Marcus's business partner. They recently argued about money.</p></div>
+<div class="suspect"><h3>🏠 Sofia Martinez</h3><p>Marcus's neighbor. She claims she heard an argument that evening.</p></div>
+<div class="suspect"><h3>📦 Kevin Thompson</h3><p>Marcus's former employee. He was recently fired.</p></div>
+<div class="suspect"><h3>👩 Rachel Rivera</h3><p>Marcus's sister. They recently disagreed about family finances.</p></div>
+</div>
+
+<div class="card">
+<h3>Investigation Rules</h3>
+<ul>
+<li>Do not jump to conclusions.</li>
+<li>Document every discovery.</li>
+<li>Distinguish facts from assumptions.</li>
+<li>Use evidence to support your final accusation.</li>
+</ul>
+</div>
+
+<button class="primary wide" onclick="showPage('day1')">BEGIN INVESTIGATION →</button>
+</section>
+
+<!-- DAY 1 -->
+<section id="day1" class="page">
+
+<div class="card">
+<div class="badge">DAY 1 · CRIME SCENE INVESTIGATION</div>
+<h2>Search Marcus's Apartment</h2>
+<p>Investigators have divided the apartment into four zones. Select a search pattern, explain your decision, and unlock the evidence.</p>
+</div>
+
+<div class="card">
+<h3>The Four Search Patterns</h3>
+<div class="patterns">
+<div class="pattern"><b>▦ Grid Search</b><p class="muted">Search in parallel lines, then repeat perpendicular to the first search.</p></div>
+<div class="pattern"><b>☰ Lane Search</b><p class="muted">Search in straight, parallel strips.</p></div>
+<div class="pattern"><b>⊞ Zone Search</b><p class="muted">Divide an area into smaller sections.</p></div>
+<div class="pattern"><b>◎ Spiral Search</b><p class="muted">Search in a continuous inward or outward spiral.</p></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Apartment Investigation Map</h3>
+<div class="zones">
+<div class="zone"><div class="icon">🛋️</div><b>A: Living Room</b><p class="muted">Signs of a struggle</p></div>
+<div class="zone"><div class="icon">🍽️</div><b>B: Kitchen</b><p class="muted">Objects and traces</p></div>
+<div class="zone"><div class="icon">🛏️</div><b>C: Bedroom</b><p class="muted">Documents and belongings</p></div>
+<div class="zone"><div class="icon">🚪</div><b>D: Entrance</b><p class="muted">Entry and exit evidence</p></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Unlock a Crime Scene Zone</h3>
+<label>Select an investigation zone</label>
+<select id="zone">
+<option value="A">A – Living Room</option>
+<option value="B">B – Kitchen</option>
+<option value="C">C – Bedroom</option>
+<option value="D">D – Front Entrance</option>
+</select>
+
+<label>Select a search pattern</label>
+<select id="pattern">
+<option value="">Choose a pattern</option>
+<option>Grid</option>
+<option>Lane</option>
+<option>Zone</option>
+<option>Spiral</option>
+</select>
+
+<label>Explain why this pattern is appropriate</label>
+<textarea id="reason" rows="3" placeholder="Explain your decision..."></textarea>
+
+<button class="primary wide" onclick="unlockEvidence()">SUBMIT SEARCH & UNLOCK EVIDENCE</button>
+<p id="feedback" class="muted"></p>
+</div>
+
+<h3>Evidence Discovered</h3>
+<div id="evidenceList"></div>
+
+<div class="card">
+<h3>Initial Investigation Report</h3>
+<p class="muted">Who seems suspicious? What evidence supports your theory?</p>
+<textarea id="theory" rows="4" placeholder="Our team believes..."></textarea>
+</div>
+
+<button class="primary wide" onclick="showPage('day2')">PROCEED TO DAY 2 →</button>
+</section>
+
+<!-- DAY 2 -->
+<section id="day2" class="page">
+
+<div class="card">
+<div class="badge">DAY 2 · FORENSIC ANALYSIS</div>
+<h2>New Evidence Has Arrived!</h2>
+<p>Forensic investigators have reviewed the evidence. Four additional discoveries may help solve the case.</p>
+</div>
+
+<div class="evidence">
+<h3>Evidence E – Shoe Impression</h3>
+<p>The shoe impression found near the entrance is consistent with a shoe belonging to Daniel Brooks. His right shoe has a damaged heel matching the missing section documented in the impression.</p>
+</div>
+
+<div class="evidence">
+<h3>Evidence F – Security Camera</h3>
+<p>A nearby building camera records a person entering at 8:38 PM and leaving at 9:12 PM. The person wears a dark business jacket. Their face is not visible.</p>
+</div>
+
+<div class="evidence">
+<h3>Evidence G – Financial Records</h3>
+<p>Investigators confirm that Daniel transferred company money into an account he controlled. Marcus had discovered the transfers and planned to report them.</p>
+</div>
+
+<div class="evidence">
+<h3>Evidence H – Phone Records</h3>
+<p>The unknown number that sent Marcus the threatening message is traced to Daniel Brooks.</p>
+</div>
+
+<h2>Suspect Interrogations</h2>
+
+<div class="evidence">
+<h3>👔 Daniel Brooks</h3>
+<p>"I was at a restaurant that evening. Marcus and I had business disagreements, but I never went to his apartment. I had nothing to do with his death."</p>
+<p class="muted">He produces a restaurant receipt showing a purchase at 8:12 PM.</p>
+</div>
+
+<div class="evidence">
+<h3>🏠 Sofia Martinez</h3>
+<p>"I was home that evening. I heard two people arguing around 8:45 PM. I couldn't identify their voices, but one person sounded very angry."</p>
+</div>
+
+<div class="evidence">
+<h3>📦 Kevin Thompson</h3>
+<p>"I was upset when Marcus fired me, but I was working a delivery shift that evening. My supervisor can confirm I was there."</p>
+</div>
+
+<div class="evidence">
+<h3>👩 Rachel Rivera</h3>
+<p>"Marcus and I argued about money last week, but we made up. I was visiting my parents that evening. I had no reason to hurt my brother."</p>
+</div>
+
+<div class="card">
+<h3>Interrogation Analysis</h3>
+<label>Which suspect's story conflicts most with the evidence?</label>
+<select id="interrogation">
+<option value="">Select a suspect</option>
+<option>Daniel Brooks</option>
+<option>Sofia Martinez</option>
+<option>Kevin Thompson</option>
+<option>Rachel Rivera</option>
+</select>
+<label>Explain your reasoning</label>
+<textarea id="interrogationReason" rows="3"></textarea>
+</div>
+
+<button class="primary wide" onclick="showPage('verdict')">SUBMIT FINAL VERDICT →</button>
+</section>
+
+<!-- FINAL VERDICT -->
+<section id="verdict" class="page">
+
+<div class="card">
+<div class="badge">FINAL INVESTIGATION REPORT</div>
+<h2>Who Killed Marcus Rivera?</h2>
+<p>You have examined the crime scene, reviewed forensic evidence, and interviewed all four suspects.</p>
+<p>Your team must now make an official accusation.</p>
+</div>
+
+<div class="card">
+<h3>1. Identify the Killer</h3>
+<div id="suspectChoices">
+<button class="choice" onclick="selectSuspect(this,'Daniel Brooks')">Daniel Brooks</button>
+<button class="choice" onclick="selectSuspect(this,'Sofia Martinez')">Sofia Martinez</button>
+<button class="choice" onclick="selectSuspect(this,'Kevin Thompson')">Kevin Thompson</button>
+<button class="choice" onclick="selectSuspect(this,'Rachel Rivera')">Rachel Rivera</button>
+</div>
+
+<label>2. Explain the Motive</label>
+<textarea id="motive" rows="3"></textarea>
+
+<label>3. Identify Your Three Strongest Pieces of Evidence</label>
+<textarea id="proof" rows="4" placeholder="Evidence 1...&#10;Evidence 2...&#10;Evidence 3..."></textarea>
+
+<label>4. Explain How the Suspect's Story Conflicts With the Evidence</label>
+<textarea id="contradiction" rows="3"></textarea>
+
+<label>5. How Did Systematic Search Methods Help Solve the Case?</label>
+<textarea id="systematic" rows="3"></textarea>
+
+<button class="primary wide" onclick="submitVerdict()">SUBMIT OFFICIAL VERDICT</button>
+<div id="result" class="result hidden"></div>
+</div>
+</section>
+
+<!-- TEACHER KEY -->
+<section id="teacher" class="page">
+
+<div class="card teacher">
+<div class="badge">CONFIDENTIAL · TEACHER ONLY</div>
+<h2>Instructor Answer Key</h2>
+<p>Do not reveal this section until students submit their verdicts.</p>
+<button class="secondary wide" onclick="document.getElementById('answer').classList.toggle('hidden')">REVEAL / HIDE ANSWER KEY</button>
+
+<div id="answer" class="hidden">
+<h2 style="color:#b88635">The Killer: Daniel Brooks</h2>
+<p><b>Motive:</b> Daniel was stealing money from the business. Marcus discovered the transfers and planned to expose him.</p>
+<h3>Evidence Supporting the Solution</h3>
+<ol>
+<li>Financial records connect Daniel to unauthorized transfers.</li>
+<li>Phone records connect Daniel to the threatening message.</li>
+<li>The shoe impression is consistent with Daniel's damaged shoe.</li>
+<li>Security footage establishes an opportunity to be at the building.</li>
+<li>Daniel claimed he never visited the apartment, which conflicts with the combined evidence.</li>
+</ol>
+<p><b>Teaching note:</b> A shoe impression consistent with a shoe is not unique identification. A restaurant receipt at 8:12 PM does not prove an all-evening alibi. Students should consider all evidence together.</p>
+</div>
+</div>
+
+<div class="card">
+<h3>Team Scoring</h3>
+<p class="muted">Enter the points earned in each category.</p>
+<div id="scoreInputs"></div>
+<h3>Total: <span id="total">0</span> / 100</h3>
+<button class="primary wide" onclick="applyScore()">APPLY TEAM SCORE</button>
+</div>
+
+<div class="card">
+<h3>Reset Game</h3>
+<button class="secondary wide" onclick="resetGame()">RESET INVESTIGATION</button>
+</div>
+</section>
+
+</div>
+
+<footer>CSI: QUEENS · CLASSROOM FORENSIC SIMULATION · FICTIONAL CASE</footer>
+
+<script>
+let score=0;
+let unlocked=[];
+let selected="";
+
+const clues={
+A:{title:"Evidence A – Living Room",text:"A broken drinking glass is found near the couch. A torn piece of paper contains the words: '...if you tell anyone, everything is over.'"},
+B:{title:"Evidence B – Kitchen",text:"Marcus's phone contains a message sent at 8:17 PM: 'We need to talk tonight. I know what you did with the money. Come alone.' The sender is saved as an unknown number."},
+C:{title:"Evidence C – Bedroom",text:"Financial records show money transferred out of Marcus's property management business without authorization. Several transactions are connected to Daniel Brooks."},
+D:{title:"Evidence D – Entrance",text:"A muddy shoe impression is found near the entrance. It shows a distinctive zigzag pattern and a small missing section along the heel."}
+};
+
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ if(button)button.classList.add('active');
+ if(id==='day2')document.getElementById('day').textContent='2/2';
+}
+
+function unlockEvidence(){
+ let zone=document.getElementById('zone').value;
+ let pattern=document.getElementById('pattern').value;
+ let reason=document.getElementById('reason').value.trim();
+
+ if(!pattern||reason.length<12){
+  document.getElementById('feedback').textContent='Choose a pattern and explain your reasoning first.';
+  return;
+ }
+
+ if(unlocked.includes(zone)){
+  document.getElementById('feedback').textContent='This zone has already been investigated.';
+  return;
+ }
+
+ unlocked.push(zone);
+ score+=5;
+ updateScore();
+ renderEvidence();
+ document.getElementById('feedback').textContent='Evidence unlocked! Your team earned 5 points.';
+}
+
+function renderEvidence(){
+ document.getElementById('found').textContent=unlocked.length+'/4';
+ document.getElementById('evidenceList').innerHTML=Object.keys(clues).map(k=>{
+  if(unlocked.includes(k)){
+   return `<div class="evidence"><h3>${clues[k].title}</h3><p>${clues[k].text}</p></div>`;
+  }
+  return `<div class="evidence locked"><h3>Evidence ${k} – Locked</h3><p class="muted">Complete this zone's search to unlock.</p></div>`;
+ }).join('');
+}
+
+function updateScore(){
+ document.getElementById('score').textContent=score;
+}
+
+function selectSuspect(button,name){
+ selected=name;
+ document.querySelectorAll('.choice').forEach(b=>b.classList.remove('selected'));
+ button.classList.add('selected');
+}
+
+function submitVerdict(){
+ let fields=['motive','proof','contradiction','systematic'];
+ let complete=fields.every(id=>document.getElementById(id).value.trim().length>=10);
+
+ if(!selected||!complete){
+  alert('Select a suspect and complete all four written explanations.');
+  return;
+ }
+
+ let correct=selected==='Daniel Brooks';
+ let result=document.getElementById('result');
+ result.classList.remove('hidden');
+
+ if(correct){
+  score+=20;
+  updateScore();
+  result.innerHTML='<h2>Correct Identification!</h2><p>Your team identified Daniel Brooks as the killer. Your teacher will review your reasoning before awarding the final points.</p>';
+ }else{
+  result.innerHTML='<h2>Incorrect Accusation</h2><p>Your investigation points to another suspect. Review the financial records, phone records, shoe impression, and suspect statements.</p>';
+ }
+ document.getElementById('day').textContent='Complete';
+}
+
+const categories=[
+["Evidence discovery",20],
+["Search pattern selection",15],
+["Evidence analysis",15],
+["Suspect statement analysis",15],
+["Motive and opportunity",15],
+["Final verdict and reasoning",20]
+];
+
+document.getElementById('scoreInputs').innerHTML=categories.map((c,i)=>`
+<div class="scoreline">
+<label>${c[0]} (${c[1]} pts)
+<input type="number" min="0" max="${c[1]}" value="0" id="points${i}">
+</label>
+</div>`).join('');
+
+function applyScore(){
+ let total=0;
+ categories.forEach((c,i)=>{
+  let input=document.getElementById('points'+i);
+  let value=Math.max(0,Math.min(c[1],Number(input.value)||0));
+  input.value=value;
+  total+=value;
+ });
+ score=total;
+ updateScore();
+ document.getElementById('total').textContent=total;
+}
+
+function resetGame(){
+ if(!confirm('Are you sure you want to reset the investigation?'))return;
+ score=0;
+ unlocked=[];
+ selected="";
+ updateScore();
+ renderEvidence();
+ document.getElementById('found').textContent='0/4';
+ document.getElementById('day').textContent='1/2';
+ document.querySelectorAll('textarea').forEach(t=>t.value='');
+ document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+ document.getElementById('result').classList.add('hidden');
+ document.getElementById('feedback').textContent='';
+ document.getElementById('total').textContent='0';
+ categories.forEach((c,i)=>document.getElementById('points'+i).value=0);
+ document.getElementById('answer').classList.add('hidden');
+ showPage('brief');
+}
+renderEvidence();
+</script>
+</body>
+</html>
